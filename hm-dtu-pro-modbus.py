@@ -54,11 +54,15 @@ def read_registers(inv_nr):
 
   if modbus_client.connect():
     rr    = modbus_client.read_holding_registers(offset_base + offset_step*inv_nr, 20)
+    if rr.isError():
+        print("problem reading registers")
+        sys.exit(1)
   else:
-    print("problem reading registers")
-    print(modbus_client.last_error())
+    print("problem connecting to modbus")
     sys.exit(1)
 
+  modbus_client.close()
+ 
   if rr:
 
     regs = rr.registers
@@ -115,7 +119,7 @@ def read_registers(inv_nr):
 
 print(time.strftime("%Y-%m-%d %H:%M:%S"))
 
-modbus_client = ModbusTcpClient(host=ModbusHost, port=ModbusPort, auto_open=True, auto_close=True)
+modbus_client = ModbusTcpClient(host=ModbusHost, port=ModbusPort)
 
 db_client     = InfluxDBClient(host=InfluxDBHost, port=InfluxDBPort, username=InfluxDBLogin, password=InfluxDBPassword, database=InfluxDBDatabase)
 
