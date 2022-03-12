@@ -72,7 +72,7 @@ def read_registers(inv_nr):
     PVTotalProd1         = regs[10]*10
     PVTotalProd2         = regs[11]
     PVTotalProd          = PVTotalProd1 + PVTotalProd2
-    Temp                 = unsigned2signed(regs[12]/10)
+    Temp                 = unsigned2signed(regs[12])/10
     OperatingStatus      = regs[13]
     AlarmCode            = regs[14]
     AlarmCount           = regs[15]
